@@ -25,19 +25,36 @@ AI is used to turn a user message and a compact snapshot of their real in-app fi
 - Local financial insights, spending patterns, notifications, streaks, and progression features.
 - Local data backup and restore from Settings.
 
-## Screenshots
+## 📸 Screenshots
 
 ### Dashboard
 
 ![Dashboard](docs/screenshots/dashboard.png)
 
+---
+
 ### AI Chat
 
-![Chat](docs/screenshots/chat.png)
+![AI Chat](docs/screenshots/chat_bot.png)
+
+---
 
 ### Expense Tracking
 
 ![Expense](docs/screenshots/expense.png)
+
+---
+
+### Saving Goals
+
+![Saving Goals](docs/screenshots/saving_goals.png)
+
+---
+
+### Analytics
+
+![Analytics](docs/screenshots/analytics.png)
+
 
 ## AI Architecture
 
