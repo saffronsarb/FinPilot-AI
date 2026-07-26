@@ -25,6 +25,20 @@ AI is used to turn a user message and a compact snapshot of their real in-app fi
 - Local financial insights, spending patterns, notifications, streaks, and progression features.
 - Local data backup and restore from Settings.
 
+## Screenshots
+
+### Dashboard
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+### AI Chat
+
+![Chat](docs/screenshots/chat.png)
+
+### Expense Tracking
+
+![Expense](docs/screenshots/expense.png)
+
 ## AI Architecture
 
 FinPilot AI sends only a compact, current context snapshot to the AI route: currency, allowance, spent and remaining amounts, category totals, up to ten recent transactions, active goals, subscription total, streak state, and selected personality.
