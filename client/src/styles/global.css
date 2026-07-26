@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+    --background: 11 15 20;
+    --foreground: 210 40% 98%;
+    --card: 215 29% 10%;
+    --card-foreground: 210 40% 98%;
+    --border: 213 25% 20%;
+    --primary: 199 89% 60%;
+    --accent: 199 89% 60%;
+  }
+
+  body {
+    @apply transition-colors duration-300;
+    background-color: rgb(var(--background-rgb, 11 15 20));
+    color: rgb(var(--foreground-rgb, 243 244 246));
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  body.light {
+    --background-rgb: 244 244 246;
+    --foreground-rgb: 31 41 55;
+    background-color: #F4F4F6;
+    color: #1F2937;
+  }
+
+  body.dark {
+    --background-rgb: 11 15 20;
+    --foreground-rgb: 243 244 246;
+    background-color: #0B0F14;
+    color: #F3F4F6;
+  }
+}
+
+@layer utilities {
+  /* Glassmorphism Primitives */
+  .glass {
+    @apply backdrop-blur-xl border transition-all duration-300;
+    background: rgba(18, 24, 32, 0.88);
+    border-color: rgba(148, 163, 184, 0.18);
+  }
+
+  .light .glass {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl p-5 shadow-sm;
+  }
+
+  .glass-input {
+    @apply w-full px-4 py-3 rounded-xl bg-white/[0.02] dark:bg-white/[0.02] light:bg-black/[0.02] border border-white/10 dark:border-white/10 light:border-black/10 focus:outline-none focus:ring-2 focus:ring-lavender/40 transition-all duration-200;
+  }
+
+  /* Typography & Tabular Figures */
+  .font-numeric {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Restrained fintech accents */
+  .glow-text-lavender {
+    color: #38BDF8;
+  }
+  .glow-text-pink {
+    color: #38BDF8;
+  }
+  .glow-text-lime {
+    color: #38BDF8;
+  }
+  .glow-text-coral {
+    color: #CBD5E1;
+  }
+
+  .glow-card-lavender {
+    box-shadow: 0 10px 28px -18px rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.25);
+  }
+  .glow-card-pink {
+    box-shadow: 0 10px 28px -18px rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.25);
+  }
+  .glow-card-lime {
+    box-shadow: 0 10px 28px -18px rgba(56, 189, 248, 0.35);
+    border-color: rgba(56, 189, 248, 0.25);
+  }
+  .glow-card-coral {
+    box-shadow: 0 10px 28px -18px rgba(100, 116, 139, 0.35);
+    border-color: rgba(100, 116, 139, 0.25);
+  }
+
+  .gradient-text {
+    color: #F8FAFC;
+  }
+
+  /* Custom Hover Effects */
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(180, 122, 234, 0.4);
+}
+
+/* Floating Particle Animation */
+.floating-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  font-size: 24px;
+  animation: floatUpAndFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes floatUpAndFade {
+  0% {
+    transform: translate(-50%, -50%) translateY(0) scale(0.5) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-120px) scale(1.6) rotate(var(--rotation, 15deg));
+    opacity: 0;
+  }
+}
