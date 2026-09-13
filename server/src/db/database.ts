@@ -58,9 +58,19 @@ export function initSchema(): void {
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
 
+    CREATE TABLE IF NOT EXISTS sync_state (
+      user_id INTEGER NOT NULL,
+      key TEXT NOT NULL,
+      payload TEXT NOT NULL,
+      updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+      PRIMARY KEY (user_id, key),
+      FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
     CREATE INDEX IF NOT EXISTS idx_expenses_user ON expenses(user_id, created_at);
     CREATE INDEX IF NOT EXISTS idx_chat_user ON chat_messages(user_id, created_at);
     CREATE INDEX IF NOT EXISTS idx_goals_user ON goals(user_id, created_at);
+    CREATE INDEX IF NOT EXISTS idx_sync_state_user ON sync_state(user_id);
   `);
 
   try {

@@ -80,4 +80,9 @@ export const api = {
 
   fundGoal: (id: number, amount: number) =>
     request<Goal>(`/goals/${id}/fund`, { method: 'POST', body: JSON.stringify({ amount }) }),
+
+  syncPull: () => request<{ success: boolean; data: { key: string; payload: string; updated_at: string }[] }>('/sync'),
+
+  syncPush: (updates: { key: string; payload: string }[]) =>
+    request<{ success: boolean; message: string }>('/sync', { method: 'POST', body: JSON.stringify({ updates }) }),
 };

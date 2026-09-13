@@ -10,6 +10,7 @@ import chatRoutes from './routes/chat';
 import fidgetRoutes from './routes/fidget';
 import goalsRoutes from './routes/goals';
 import aiChatRoutes from './routes/aiChat';
+import syncRoutes from './routes/sync';
 
 dotenv.config();
 console.log("Gemini key loaded:", !!process.env.GEMINI_API_KEY);
@@ -47,6 +48,7 @@ app.use('/api/chat', chatRoutes);
 app.use('/api/fidget', fidgetRoutes);
 app.use('/api/goals', goalsRoutes);
 app.use('/api/ai-chat', aiChatRoutes);
+app.use('/api/sync', syncRoutes);
 
 app.use((_req, res) => {
   res.status(404).json({ error: 'Not found bestie 🫠' });

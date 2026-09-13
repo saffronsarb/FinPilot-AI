@@ -6,6 +6,7 @@ import { User } from './lib/types';
 import { getUser, isAuthenticated } from './lib/auth';
 import { LoadingScreen } from './components/feedback/LoadingScreen';
 import { onboardingEngine } from './lib/onboardingEngine';
+import { syncEngine } from './lib/syncEngine';
 
 // Phase 2 features
 import LandingPage from './features/landing/LandingPage';
@@ -38,10 +39,24 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated()) {
-      setUser(getUser());
+      const currentUser = getUser();
+      setUser(currentUser);
     }
     setAuthChecked(true);
   }, []);
+
+  // Initialize background sync when a user logs in
+  useEffect(() => {
+    let cleanupSync: (() => void) | undefined;
+    
+    if (user?.id) {
+      cleanupSync = syncEngine.init(user.id);
+    }
+
+    return () => {
+      if (cleanupSync) cleanupSync();
+    };
+  }, [user?.id]);
 
   useEffect(() => {
     const handleExpenseAdded = () => {
