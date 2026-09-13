@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: FinPilot AI (BreadBuddy) API
+  description: API for the FinPilot AI personal finance and chatbot dashboard.
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000/api
+    description: Local development server
+paths:
+  /health:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: OK
+  /categories:
+    get:
+      summary: Get default expense categories
+      responses:
+        '200':
+          description: A list of categories with emojis
+  /auth/signup:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, name]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                monthlyAllowance:
+                  type: number
+      responses:
+        '200':
+          description: Success
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Returns auth token and user
+  /auth/me:
+    get:
+      summary: Get current authenticated user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User object
+    patch:
+      summary: Update current user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Success
+  /expenses:
+    get:
+      summary: Get expenses for a specific month
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: string
+            example: "2023-10"
+      responses:
+        '200':
+          description: List of expenses
+    post:
+      summary: Create a new expense
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [amount, category]
+              properties:
+                amount:
+                  type: number
+                category:
+                  type: string
+                note:
+                  type: string
+      responses:
+        '200':
+          description: Created expense
+  /expenses/{id}:
+    delete:
+      summary: Delete an expense
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success
+  /expenses/summary:
+    get:
+      summary: Get financial summary for a month
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: month
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Summary object
+  /chat/message:
+    post:
+      summary: Send a chat message (local fallback)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+      responses:
+        '200':
+          description: Chatbot response
+  /ai-chat/message:
+    post:
+      summary: Send a message to the AI Chatbot (Gemini)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                context:
+                  type: object
+      responses:
+        '200':
+          description: AI response with parsed intents and transactions
+  /sync:
+    get:
+      summary: Get all localStorage backup state
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Array of sync states
+    post:
+      summary: Push a batch of localStorage keys
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                updates:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      payload:
+                        type: string
+      responses:
+        '200':
+          description: Success
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
