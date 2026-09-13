@@ -30,46 +30,10 @@ export type AiChatContext = {
   personality: 'bestie' | 'coach' | 'professional' | 'calm';
 };
 
-const VALID_INTENTS = [
-  'afford_check',
-  'spending_summary',
-  'category_breakdown',
-  'prediction',
-  'tips',
-  'motivation',
-  'girl_math',
-  'streak',
-  'transaction_logged',
-  'general',
-] as const;
+import { AI_VALID_INTENTS, TRANSACTION_CATEGORIES, AiIntent } from '@finpilot/shared';
 
-export type AiIntent = (typeof VALID_INTENTS)[number];
-
-export const AI_VALID_INTENTS = VALID_INTENTS;
-
-/**
- * Mirrors the `value`s of DEFAULT_CATEGORIES in client/src/lib/financeEngine.ts
- * — the client-side source of truth for categories (see HANDOFF.md
- * Architecture Decision #7). This server module can't import that client
- * file directly, so the value list is duplicated here for Zod validation.
- * If categories are ever added/removed in financeEngine.ts, update this
- * list to match.
- */
-export const TRANSACTION_CATEGORIES = [
-  'food',
-  'transport',
-  'shopping',
-  'entertainment',
-  'bills',
-  'healthcare',
-  'education',
-  'salary',
-  'parents',
-  'freelance',
-  'investment',
-  'savings',
-  'miscellaneous',
-] as const;
+export type { AiIntent };
+export { AI_VALID_INTENTS, TRANSACTION_CATEGORIES };
 
 const PERSONALITY_VOICE: Record<AiChatContext['personality'], string> = {
   bestie:
@@ -93,7 +57,7 @@ Rules:
 - Keep replies concise: 1-4 short sentences, chat-bubble length, not an essay.
 - Always reason from the provided context data. If the data needed to answer isn't present, say so honestly instead of guessing.
 - Never give real-world investment, tax, or legal advice — this is a budgeting companion for students, not a financial advisor.
-- Pick the single best-matching "intent" tag for the user's message from this exact list: ${VALID_INTENTS.join(', ')}.
+- Pick the single best-matching "intent" tag for the user's message from this exact list: ${AI_VALID_INTENTS.join(', ')}.
 
 Transaction logging:
 If, and only if, the user's message describes a financial transaction that has ALREADY HAPPENED (a completed purchase, expense, or income received) — NOT a question, a hypothetical, an "can I afford" check, or advice request — include an additional "transaction" field in your JSON response with this exact shape:
